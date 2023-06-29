@@ -3,6 +3,10 @@ package com.example.lean_overlay
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,11 +14,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -42,6 +45,15 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val showDialog = remember { mutableStateOf(false) }
 
+                    val offsetAnimation by animateDpAsState(
+                        targetValue = if (showDialog.value) 0.dp else (200).dp,
+                        animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
+                    )
+
+                    val alphaAnimation by animateFloatAsState(
+                        targetValue = if (showDialog.value) 1f else 0f
+                    )
+
                     Button(onClick = { showDialog.value = true }) {
                         Text("Show Dialog")
                     }
@@ -54,7 +66,15 @@ class MainActivity : ComponentActivity() {
                                 dismissOnClickOutside = true
                             )
                         ) {
-                            StackedCards()
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .offset(y = offsetAnimation)
+                                    .alpha(alphaAnimation)
+                            ) {
+
+                                    StackedCards(showDialog)
+                            }
                         }
                     }
                 }
@@ -63,8 +83,8 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun StackedCards() {
-        Box(contentAlignment = Alignment.Center) {
+    fun StackedCards(showDialog: MutableState<Boolean>) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
             Canvas(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -98,7 +118,7 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(start = 20.dp, end = 5.dp, top = 5.dp)
                     ) {
-                        CloseIconComposable()
+                        CloseIconComposable(showDialog)
                         Box(
                             contentAlignment = Alignment.TopCenter, modifier = Modifier
                                 .rotate(4f)
@@ -178,7 +198,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun CloseIconComposable() {
+    private fun CloseIconComposable(showDialog: MutableState<Boolean>) {
         Box(
             contentAlignment = Alignment.TopEnd, modifier = Modifier
                 .height(30.dp)
@@ -192,7 +212,7 @@ class MainActivity : ComponentActivity() {
                     .align(Alignment.TopEnd)
                     .rotate(4f)
                     .clickable {
-
+                        showDialog.value = false
                     }
             )
         }
@@ -202,7 +222,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun DefaultPreview() {
         LeanOverlayTheme {
-            StackedCards()
+
         }
     }
 }
