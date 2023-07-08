@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -45,13 +46,14 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val showDialog = remember { mutableStateOf(false) }
 
-                    val offsetAnimation by animateDpAsState(
-                        targetValue = if (showDialog.value) 0.dp else (200).dp,
-                        animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
-                    )
 
                     val alphaAnimation by animateFloatAsState(
                         targetValue = if (showDialog.value) 1f else 0f
+                    )
+
+                    val offsetAnimation by animateDpAsState(
+                        targetValue = if (showDialog.value) 0.dp else (DialogAnimation.BottomToCenter.value).dp,
+                        animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
                     )
 
                     Button(onClick = { showDialog.value = true }) {
@@ -66,19 +68,34 @@ class MainActivity : ComponentActivity() {
                                 dismissOnClickOutside = true
                             )
                         ) {
-                            Box(
-                                Modifier
-                                    .fillMaxSize()
-                                    .offset(y = offsetAnimation)
-                                    .alpha(alphaAnimation)
-                            ) {
-
-                                    StackedCards(showDialog)
-                            }
+                            LeanOverlayLayout(
+                                offsetAnimation,
+                                alphaAnimation,
+                                showDialog,
+                                DialogAnimation.BottomToCenter
+                            )
                         }
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun LeanOverlayLayout(
+        offsetAnimation: Dp,
+        alphaAnimation: Float,
+        showDialog: MutableState<Boolean>,
+        animationDirection: DialogAnimation
+    ) {
+        val isVertical =
+            animationDirection is DialogAnimation.TopToCenter || animationDirection is DialogAnimation.BottomToCenter
+        val animatedModifier = createAnimatedModifier(isVertical, offsetAnimation, alphaAnimation)
+        Box(
+            animatedModifier
+        ) {
+
+            StackedCards(showDialog)
         }
     }
 
