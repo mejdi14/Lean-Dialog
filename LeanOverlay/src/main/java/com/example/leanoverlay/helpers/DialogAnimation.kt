@@ -19,21 +19,6 @@ sealed class DialogAnimation(val value: Float) {
     object NONE: DialogAnimation(0f)
 }
 
-@Composable
-fun Modifier.animatedOffset(
-    showDialog: MutableState<Boolean>,
-    axis: DialogAnimation
-): Modifier {
-
-    val offsetAnimation by animateDpAsState(
-        targetValue = if (showDialog.value) 0.dp else (axis.value).dp,
-        animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
-    )
-
-    return offset(y = offsetAnimation)
-
-}
-
 fun createAnimatedModifier(
     isXAxis: Boolean,
     offsetAnimation: Dp,

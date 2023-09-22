@@ -30,12 +30,12 @@ class MainActivity : ComponentActivity() {
 
 
                     val alphaAnimation by animateFloatAsState(
-                        targetValue = if (showDialog.value) 1f else 0f
+                        targetValue = if (showDialog.value) 1f else 0f, label = ""
                     )
 
                     val offsetAnimation by animateDpAsState(
                         targetValue = if (showDialog.value) 0.dp else (DialogAnimation.BottomToCenter.value).dp,
-                        animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
+                        animationSpec = spring(stiffness = Spring.StiffnessVeryLow), label = ""
                     )
 
                     Button(onClick = { showDialog.value = true }) {
@@ -43,7 +43,9 @@ class MainActivity : ComponentActivity() {
                     }
 
                     if (showDialog.value) {
-                        LeanOverlay(showDialog, offsetAnimation, alphaAnimation, BodyContentExample())
+                        LeanOverlay(showDialog, offsetAnimation, alphaAnimation){
+                            BodyContentExample()
+                        }
                     }
                 }
             }

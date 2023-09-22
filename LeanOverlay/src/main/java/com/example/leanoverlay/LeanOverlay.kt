@@ -13,7 +13,7 @@ fun LeanOverlay(
     showDialog: MutableState<Boolean>,
     offsetAnimation: Dp,
     alphaAnimation: Float,
-    bodyContent: Unit
+    bodyContentExample: @Composable () -> Unit,
 ) {
     Dialog(
         onDismissRequest = { showDialog.value = false },
@@ -26,8 +26,10 @@ fun LeanOverlay(
             offsetAnimation,
             alphaAnimation,
             showDialog,
-            DialogAnimation.BottomToCenter,
-            bodyContent
-        )
+            DialogAnimation.BottomToCenter
+
+        ){
+            bodyContentExample()
+        }
     }
 }

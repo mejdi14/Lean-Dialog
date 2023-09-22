@@ -13,7 +13,7 @@ import com.example.leanoverlay.helpers.createAnimatedModifier
     alphaAnimation: Float,
     showDialog: MutableState<Boolean>,
     animationDirection: DialogAnimation,
-    bodyContent: Unit
+    bodyContentExample: @Composable () -> Unit,
 ) {
     val isVertical =
         animationDirection is DialogAnimation.TopToCenter || animationDirection is DialogAnimation.BottomToCenter
@@ -22,6 +22,8 @@ import com.example.leanoverlay.helpers.createAnimatedModifier
         animatedModifier
     ) {
 
-        StackedCards(showDialog, bodyContent)
+        StackedCards(showDialog = showDialog){
+            bodyContentExample()
+        }
     }
 }
