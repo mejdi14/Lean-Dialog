@@ -29,12 +29,10 @@ fun StackedCards(
     modifier: Modifier = Modifier,
     bodyContentExample: @Composable () -> Unit
 ) {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+    Box(contentAlignment = Alignment.Center, modifier = modifier.then(Modifier.padding(top = 10.dp, bottom = 10.dp))) {
         Canvas(
             modifier = modifier.then(Modifier
-                .align(Alignment.Center)
-                .width(300.dp)
-                .height(200.dp))
+                .align(Alignment.Center))
         ) {
             val strokeWidth = 2.dp.toPx()
             val cornerRadius = 10.dp.toPx()
@@ -71,7 +69,6 @@ fun StackedCards(
                         bodyContentExample()
                     }
                 }
-
             }
         }
     }
