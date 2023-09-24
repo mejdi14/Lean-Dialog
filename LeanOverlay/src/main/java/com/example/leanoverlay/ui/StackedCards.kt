@@ -22,37 +22,36 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.example.leanoverlay.data.DrawRoundRectParams
 
 @Composable
 fun StackedCards(
     showDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier,
-    drawRoundRectParams: DrawRoundRectParams = DrawRoundRectParams(),
     bodyContentExample: @Composable () -> Unit
 ) {
-    val appliedModifier = Modifier
-        .defaultSize()
-        .then(modifier)
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.wrapContentSize()) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Canvas(
-            modifier = appliedModifier
+            modifier = modifier.then(Modifier
+                .align(Alignment.Center)
+                .width(300.dp)
+                .height(200.dp))
         ) {
-            val size = this.size
+            val strokeWidth = 2.dp.toPx()
+            val cornerRadius = 10.dp.toPx()
 
-            with(drawRoundRectParams) {
-                drawRoundRect(
-                    color = color,
-                    topLeft = topLeft,
-                    size = size,
-                    cornerRadius = cornerRadius,
-                    style = Stroke(width = strokeWidth)
-                )
-            }
+            drawRoundRect(
+                color = Color.White,
+                topLeft = Offset.Zero,
+                size = this.size,
+                cornerRadius = CornerRadius(cornerRadius, cornerRadius),
+                style = Stroke(width = strokeWidth)
+            )
         }
 
         Card(
-            modifier = appliedModifier.then(Modifier.rotate(-4f)),
+            modifier = modifier.then(Modifier
+                .align(Alignment.Center)
+                .rotate(-4f)),
             backgroundColor = Color.White,
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -72,6 +71,7 @@ fun StackedCards(
                         bodyContentExample()
                     }
                 }
+
             }
         }
     }

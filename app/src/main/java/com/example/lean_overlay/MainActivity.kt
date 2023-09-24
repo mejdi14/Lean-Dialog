@@ -9,6 +9,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -50,7 +51,8 @@ class MainActivity : ComponentActivity() {
                     }
 
                     if (showDialog.value) {
-                        LeanOverlay(showDialog, offsetAnimation, alphaAnimation, dismissOnClickOutside = true){
+                        LeanOverlay(showDialog, offsetAnimation, alphaAnimation, modifier = Modifier.width(300.dp)
+                            .height(200.dp), dismissOnClickOutside = true){
                             BodyContentExample()
                         }
                     }
