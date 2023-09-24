@@ -1,11 +1,17 @@
 package com.example.leanoverlay.ui
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -15,38 +21,38 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.leanoverlay.data.DrawRoundRectParams
 
 @Composable
-fun StackedCards(showDialog: MutableState<Boolean>, bodyContentExample: @Composable () -> Unit) {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+fun StackedCards(
+    showDialog: MutableState<Boolean>,
+    modifier: Modifier = Modifier,
+    drawRoundRectParams: DrawRoundRectParams = DrawRoundRectParams(),
+    bodyContentExample: @Composable () -> Unit
+) {
+    val appliedModifier = Modifier
+        .defaultSize()
+        .then(modifier)
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.wrapContentSize()) {
         Canvas(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .width(300.dp)
-                .height(200.dp) // Adjust size as needed
+            modifier = appliedModifier
         ) {
-            val strokeWidth = 2.dp.toPx()
-            val cornerRadius = 10.dp.toPx()
+            val size = this.size
 
-            drawRoundRect(
-                color = Color.White,
-                topLeft = Offset.Zero,
-                size = this.size,
-                cornerRadius = CornerRadius(cornerRadius, cornerRadius),
-                style = Stroke(width = strokeWidth)
-            )
+            with(drawRoundRectParams) {
+                drawRoundRect(
+                    color = color,
+                    topLeft = topLeft,
+                    size = size,
+                    cornerRadius = cornerRadius,
+                    style = Stroke(width = strokeWidth)
+                )
+            }
         }
 
         Card(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .width(300.dp)
-                .height(200.dp)
-                .rotate(-4f),
+            modifier = appliedModifier.then(Modifier.rotate(-4f)),
             backgroundColor = Color.White,
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -66,70 +72,6 @@ fun StackedCards(showDialog: MutableState<Boolean>, bodyContentExample: @Composa
                         bodyContentExample()
                     }
                 }
-
-            }
-        }
-    }
-}
-
-@Composable
-private fun BodyContentComposable() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Stay on your business",
-            fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            color = Color.Black
-        )
-
-        Text(
-            text = "Sign up to insure that you don't miss any new updates and to receive a weekly news letter.",
-            fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Light,
-            fontSize = 12.sp,
-            color = Color.Black
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = Color.Black,
-                        shape = RoundedCornerShape(15.dp)
-                    )
-                    .padding(all = 10.dp)
-            ) {
-                Text(
-                    "Sign Up",
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 14.sp,
-                    color = Color.White
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(15.dp)
-                    )
-                    .padding(all = 10.dp)
-            ) {
-                Text(
-                    "Next Time",
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 14.sp,
-                    color = Color.Black
-                )
             }
         }
     }

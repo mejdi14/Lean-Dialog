@@ -1,15 +1,11 @@
 package com.example.leanoverlay.helpers
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 sealed class DialogAnimation(val value: Float) {
     object TopToCenter: DialogAnimation(-400f)
@@ -26,8 +22,8 @@ fun createAnimatedModifier(
 ): Modifier {
     return if (isXAxis) {
         Modifier
-            .fillMaxSize()
             .offset(x = offsetAnimation)
+            .wrapContentSize()
             .alpha(alphaAnimation)
     } else {
         Modifier

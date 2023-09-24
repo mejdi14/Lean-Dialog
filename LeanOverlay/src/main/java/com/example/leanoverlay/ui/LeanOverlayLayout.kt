@@ -3,6 +3,7 @@ package com.example.leanoverlay.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import com.example.leanoverlay.helpers.DialogAnimation
 import com.example.leanoverlay.helpers.createAnimatedModifier
@@ -13,6 +14,7 @@ import com.example.leanoverlay.helpers.createAnimatedModifier
     alphaAnimation: Float,
     showDialog: MutableState<Boolean>,
     animationDirection: DialogAnimation,
+    modifier: Modifier = Modifier,
     bodyContentExample: @Composable () -> Unit,
 ) {
     val isVertical =
@@ -22,7 +24,7 @@ import com.example.leanoverlay.helpers.createAnimatedModifier
         animatedModifier
     ) {
 
-        StackedCards(showDialog = showDialog){
+        StackedCards(showDialog = showDialog, modifier){
             bodyContentExample()
         }
     }
