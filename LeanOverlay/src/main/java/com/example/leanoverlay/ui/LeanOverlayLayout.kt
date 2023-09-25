@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import com.example.leanoverlay.data.BorderLineCanvasParams
 import com.example.leanoverlay.helpers.DialogAnimation
 import com.example.leanoverlay.helpers.createAnimatedModifier
 
@@ -15,6 +16,8 @@ import com.example.leanoverlay.helpers.createAnimatedModifier
     showDialog: MutableState<Boolean>,
     animationDirection: DialogAnimation,
     modifier: Modifier = Modifier,
+    withCloseIcon: Boolean,
+    borderLineCanvasParams: BorderLineCanvasParams,
     bodyContentExample: @Composable () -> Unit,
 ) {
     val isVertical =
@@ -24,7 +27,7 @@ import com.example.leanoverlay.helpers.createAnimatedModifier
         animatedModifier
     ) {
 
-        StackedCards(showDialog = showDialog, modifier){
+        StackedCards(showDialog = showDialog, modifier, withCloseIcon, borderLineCanvasParams){
             bodyContentExample()
         }
     }

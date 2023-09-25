@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.leanoverlay.data.BorderLineCanvasParams
 import com.example.leanoverlay.helpers.DialogAnimation
 import com.example.leanoverlay.ui.LeanOverlayLayout
 
@@ -14,8 +15,10 @@ fun LeanOverlay(
     showDialog: MutableState<Boolean>,
     offsetAnimation: Dp,
     alphaAnimation: Float,
-    dismissOnClickOutside: Boolean = true,
     modifier: Modifier = Modifier,
+    dismissOnClickOutside: Boolean = true,
+    withCloseIcon: Boolean = true,
+    borderLineCanvasParams: BorderLineCanvasParams = BorderLineCanvasParams(),
     bodyContentExample: @Composable () -> Unit
 ) {
     Dialog(
@@ -30,7 +33,9 @@ fun LeanOverlay(
             alphaAnimation,
             showDialog,
             DialogAnimation.BottomToCenter,
-            modifier
+            modifier,
+            withCloseIcon,
+            borderLineCanvasParams
         ){
             bodyContentExample()
         }
