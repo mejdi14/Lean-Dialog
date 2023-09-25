@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
@@ -22,11 +19,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
+import com.example.leanoverlay.data.DrawRoundRectParams
 
 @Composable
 fun StackedCards(
     showDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier,
+    drawRoundRectParams: DrawRoundRectParams = DrawRoundRectParams(),
     bodyContentExample: @Composable () -> Unit
 ) {
     Box(contentAlignment = Alignment.Center, modifier = modifier.then(Modifier.padding(top = 10.dp, bottom = 10.dp))) {
@@ -34,16 +33,17 @@ fun StackedCards(
             modifier = modifier.then(Modifier
                 .align(Alignment.Center))
         ) {
-            val strokeWidth = 2.dp.toPx()
-            val cornerRadius = 10.dp.toPx()
+            val size = this.size
 
-            drawRoundRect(
-                color = Color.White,
-                topLeft = Offset.Zero,
-                size = this.size,
-                cornerRadius = CornerRadius(cornerRadius, cornerRadius),
-                style = Stroke(width = strokeWidth)
-            )
+            with(drawRoundRectParams) {
+                drawRoundRect(
+                    color = color,
+                    topLeft = topLeft,
+                    size = size,
+                    cornerRadius = cornerRadius,
+                    style = Stroke(width = strokeWidth)
+                )
+            }
         }
 
         Card(
