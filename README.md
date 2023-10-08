@@ -78,6 +78,17 @@ dependencies {
                     }
 ```
 
+Animation direction
+-----
+
+``` java
+    DialogAnimation.TopToCenter
+    DialogAnimation.BottomToCenter
+    DialogAnimation.LeftToRight
+    DialogAnimation.RightToLeft
+    DialogAnimation.NONE
+```
+
 BorderLineCanvasParams
 -----
 
