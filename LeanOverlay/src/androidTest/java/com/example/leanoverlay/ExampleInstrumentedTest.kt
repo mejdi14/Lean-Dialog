@@ -1,4 +1,4 @@
-package com.example.lean_overlay
+package com.example.leanoverlay
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.lean_overlay", appContext.packageName)
+        assertEquals("com.example.leanoverlay.test", appContext.packageName)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.lean_overlay
+package com.example.leanoverlay
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
